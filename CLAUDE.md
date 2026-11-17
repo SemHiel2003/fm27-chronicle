@@ -82,7 +82,20 @@ met wedstrijden bij de nieuwe club is nog niet gezien; een overstap midden in ee
 dan afsluiten; pakt de focus niet af). Datamap: `~/Library/Application Support/FM27 Chronicle`
 (Windows `%APPDATA%\FM27 Chronicle`).
 
+## Uitgebracht: 0.1.0 (17 nov 2026)
+
+- Openbare repo `SemHiel2003/fm27-chronicle` (remote `origin`), tag `v0.1.0`. Windows-zip via GitHub Actions
+  (`.github/workflows/release.yml`, bij een tag `v*`; notes in `docs/releases/<tag>.md`), Mac-DMG via
+  `./release.sh` (universeel, Developer ID, genotariseerd) en `gh release upload`. Vaste downloadlinks:
+  `…/releases/latest/download/FM27-Chronicle-macOS.dmg` en `…/FM27-Chronicle-Windows.zip`.
+- `./release.sh` niet door `head` of een andere afkappende pipe sturen: dan stopt het script halverwege.
+- Sortitoutsi: post 78652 (type download, "Tools, Editors and Spreadsheets"; daar is een geüpload bestand
+  verplicht, dus de zip en de DMG staan er ook: **bij elke release opnieuw uploaden**, anders loopt hun kopie
+  achter). De Trainer-post (78370) verwijst naar Chronicle en andersom; beide hebben de Ko-fi-link.
+- Deelkaart: keuze seizoen of hele carrière (`CardData`, `season_card`, `career_card` in `ui.rs`).
+- **Windows blijft ongetest** (alleen `cargo check --target x86_64-pc-windows-msvc` en de build in Actions).
+
 ## Nog te doen
 
-- Windows bouwen en live controleren; release-script (ondertekenen, notarisatie) en een GitHub-repo.
-- Niet committen, pushen of uitbrengen zonder dat Sem het vraagt.
+- Windows live controleren (posities van FIXTURE_RESULT); doelpuntenmakers zoeken.
+- Niet pushen of uitbrengen zonder dat Sem het vraagt.
