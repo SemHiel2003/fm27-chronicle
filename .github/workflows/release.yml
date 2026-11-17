@@ -1,0 +1,36 @@
+# Bouwt de Windows-versie van FM27 Chronicle bij een tag als v0.1.0 (release-notes in docs/releases/<tag>.md),
+# of met de hand (Actions → release → Run workflow). De Mac-versie komt van ./release.sh op een Mac
+# (ondertekend en genotariseerd) en wordt met `gh release upload` toegevoegd.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test -p fm27-chronicle
+      - run: cargo build --release -p fm27-chronicle
+      - name: Inpakken
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Copy-Item target/release/fm27-chronicle.exe "dist/FM27 Chronicle.exe"
+          Compress-Archive -Path "dist/FM27 Chronicle.exe" -DestinationPath "dist/FM27-Chronicle-Windows.zip" -Force
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FM27-Chronicle-Windows
+          path: dist/FM27-Chronicle-Windows.zip
+      - uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: dist/FM27-Chronicle-Windows.zip
+          body_path: docs/releases/${{ github.ref_name }}.md
